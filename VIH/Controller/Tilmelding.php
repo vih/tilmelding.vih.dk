@@ -23,7 +23,7 @@ class VIH_Controller_Tilmelding extends k_Component
 
     function renderHtml()
     {
-        return new k_SeeOther('http://dev.vih.dk');
+        return new k_SeeOther('http://vih.dk');
     }
 
     function wrapHtml($content)
@@ -31,16 +31,16 @@ class VIH_Controller_Tilmelding extends k_Component
         $model = array(
             'content' => $content,
             'navigation' => array(
-                array('url' => 'http://dev.vih.dk/langekurser', 'navigation_name' => 'Lange kurser'),
-                array('url' => 'http://dev.vih.dk/kortekurser', 'navigation_name' => 'Korte kurser')
+                array('url' => 'http://vih.dk/langekurser', 'navigation_name' => 'Lange kurser'),
+                array('url' => 'http://vih.dk/kortekurser', 'navigation_name' => 'Korte kurser')
             ),
             'url' => $this->url('/'),
             'site_info' => '<a href="'.$this->url('/kontakt') .'">Vejle Idrætshøjskole</a> Ørnebjervej 28 7100 Vejle Tlf. 7582 0811 ' . email('kontor@vih.dk'),
             'name' => 'Vejle Idrætshøjskole',
             'navigation_section' => array(
-                array('url' => 'http://vih.dk/kursuscenter/', 'navigation_name' => 'Kursuscenter'),
-                array('url' => 'http://vih.dk/elevforeningen/', 'navigation_name' => 'Elevforeningen'),
-                array('url' => 'http://www.vies.dk/', 'navigation_name' => 'Efterskole')
+                array('url' => 'http://kursuscenter.vih.dk/', 'navigation_name' => 'Kursuscenter'),
+                array('url' => 'http://elevforeningen.vih.dk/', 'navigation_name' => 'Elevforeningen'),
+                array('url' => 'http://vies.dk/', 'navigation_name' => 'Efterskole')
             ),
             'trail' => $this->document->trail,
             'title' => $this->document->title()
