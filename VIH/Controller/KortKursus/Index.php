@@ -48,74 +48,12 @@ class VIH_Controller_KortKursus_Index extends k_Component
 
     function renderHtml()
     {
-        $this->document->theme   = 'kortekurser';
-        $this->document->body_class = 'widepicture';
-
-        $kurser = $this->getGateway()->getList('open'); // array with the courses
-
-        $title = 'Korte kurser og sommerkurser på højskole - højskolekurser';
-        $meta['description'] = 'Korte kurser og sommerkurser på Vejle Idrætshøjskole. Brug din ferie på højskole. Vi har masser af højskolekurser at vælge mellem.';
-        $meta['keywords'] = 'højskole, idrætshøjskole, sommerkurser, sommerkursus, højskolekurser, korte kurser, sommerhøjskole';
-        $content_data = array(
-            'headline' => 'Korte kurser',
-            'text' => 'Vi arrangerer hele året korte højskolekurser. Vi har voksenkurser, familiekurser og kurser for <a href="'.$this->url('/kortekurser/golf/').'">golfentusiaster</a>. Du sparker til livet gennem legen og fordybelsen, diskussionerne og festlighederne. Hvis du har spørgsmål om kurserne, er du meget velkommen til at ringe til skolen eller kursuslederne for de enkelte kurser.');
-        $table_data = array('summary' => 'Oversigt over de aktuelle korte kurser på Vejle Idrætshøjskole - højskolekurser',
-            'caption' => 'Oversigt over aktuelle korte kurser',
-            'kurser' => $this->getGateway()->getList());
-        $news_data = array(
-            'nyheder' => VIH_News::getList(1));
-
-        $this->document->setTitle($title);
-        $this->document->meta    = $meta;
-        $this->document->feeds[] = array('title' => 'Korte kurser',
-                                         'link' => $this->url('/rss/kortekurser'));
-        $this->document->widepicture = $this->getWidePictureUrl($this->document->theme);
-        $table = $this->getTable($table_data);
-
-        $data = array_merge(array('table' => $table), $content_data);
-
-        $tpl = $this->template->create('KortKursus/index');
-        $content = array('content' => $tpl->render($this, $data), 'content_sub' => $this->getSubContent());
-
-        $tpl = $this->template->create('sidebar-wrapper');
-        return $tpl->render($this, $content);
-    }
-
-    function renderXml()
-    {
-        $kurser = $this->getGateway()->getList('open');
-        $i = 0;
-        $items = array();
-        foreach ($kurser AS $kursus):
-            $items[$i]['title']       = $kursus->get('kursusnavn');
-            $items[$i]['description'] = $kursus->get('description');
-            $items[$i]['pubDate']     = $kursus->get('date_updated_rfc822');
-            $items[$i]['author']      = htmlspecialchars('Vejle Idrætshøjskole <kontor@vih.dk>');
-            $items[$i]['link']        = 'http://vih.dk/kortekurser/' . $kursus->get('id') . '/';
-            $i++;
-        endforeach;
-
-        $data = array(
-            'title'       => 'Korte kurser på Vejle Idrætshøjskole',
-            'link'        => 'http://vih.dk/',
-            'language'    => 'da',
-            'description' => 'Kursusoversigten over korte kurser på Vejle Idrætshøjskole',
-            'docs'        => 'http://vih.dk/rss/',
-            'items'       => $items
-        );
-        $tpl = $this->template->create('rss20');
-        return $tpl->render($this, $data);
+        return new k_SeeOther('http://vih.dk/kortekurser');
     }
 
     function getGateway()
     {
         return new VIH_Model_KortKursusGateway($this->db_sql);
-    }
-
-    function getTable($data)
-    {
-        $tpl = $this->template->create('KortKursus/kurser');
-        return $tpl->render($this, $data);
     }
 
     function getSubContent()

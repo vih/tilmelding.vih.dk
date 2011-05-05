@@ -36,6 +36,6 @@ class VIH_Controller_LangtKursus_Index extends k_Component
 
     function renderHtml()
     {
-        throw new k_SeeOther('http://vih.dk/langekurser');
+        return new k_SeeOther('http://vih.dk/langekurser');
     }
 }
