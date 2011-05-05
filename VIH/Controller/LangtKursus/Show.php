@@ -32,13 +32,7 @@ class VIH_Controller_LangtKursus_Show extends k_Component
     function renderHtml()
     {
         $kursus = new VIH_Model_LangtKursus($this->name());
-
-        $ansat = new VIH_Model_Ansat($kursus->get('ansat_id'));
-        if ($ansat->get('id')) {
-            $sprg_link = '<a href="'.$this->url('/underviser/' . $kursus->get('ansat_id')) . '">'.$ansat->get('navn').' svarer på spørgsmål</a>';
-        } else {
-            $sprg_link = '<a href="'.$this->url('/kontakt/') . '">Kontoret</a> svarer gerne på spørgsmål om kurset';
-        }
+        $sprg_link = '<a href="mailto:kontor@vih.dk">Kontoret</a> svarer gerne på spørgsmål om kurset';
 
         $pictures = $kursus->getPictures();
         $pic_html = '';
@@ -69,12 +63,14 @@ class VIH_Controller_LangtKursus_Show extends k_Component
         $this->document->setTitle($kursus->getKursusNavn());
         $this->document->meta = $meta;
 
-        $data = array('kursus' => $kursus,
-                      'fag' => $this->getSubjectsTable());
+        $data = array(
+            'kursus' => $kursus,
+            'fag' => $this->getSubjectsTable());
 
         $tpl = $this->template->create('LangtKursus/kursus');
-        $content = array('content' => $tpl->render($this, $data)  . $this->getInformationAboutCourse($kursus),
-                         'content_sub' => $this->getSubContent($sprg_link));
+        $content = array(
+            'content' => $tpl->render($this, $data)  . $this->getInformationAboutCourse($kursus),
+            'content_sub' => $this->getSubContent($sprg_link));
 
         $tpl = $this->template->create('sidebar-wrapper');
         return $tpl->render($this, $content);
@@ -93,7 +89,6 @@ class VIH_Controller_LangtKursus_Show extends k_Component
                 }
             }
         }
-
     }
 
     function getSubjectsTable()
@@ -134,7 +129,7 @@ class VIH_Controller_LangtKursus_Show extends k_Component
             $table->addRow(array($r['faggruppe']), null, 'th');
             foreach ($r['fag'] as $fag) {
                 $data = array();
-                $data[] = '<a href="'.$this->url('/fag/' . $fag->get('identifier')).'">' . $fag->get('navn') . '</a>';
+                $data[] = $fag->get('navn');
                 foreach ($periods as $p) {
                     if ($this->isSubjectAvailable($p, $fag)) {
                     	$data[] = '&bull;';
@@ -148,7 +143,6 @@ class VIH_Controller_LangtKursus_Show extends k_Component
         }
 
         return $table->toHtml();
-
     }
 
     function getSubContent($sprg_link)
@@ -162,8 +156,8 @@ class VIH_Controller_LangtKursus_Show extends k_Component
             </ul>
             <h2>Støttemuligheder</h2>
             <ul>
-                <li><a href="'.$this->url('../elevstøtte') . '">Individuel elevstøtte</a></li>
-                <li><a href="'.$this->url('../statsstøtte') . '">Statsstøtte til særlige grupper</a></li>
+                <li><a href="'.$this->url('../elevstotte') . '">Individuel elevstøtte</a></li>
+                <li><a href="'.$this->url('../statsstotte') . '">Statsstøtte til særlige grupper</a></li>
             </ul>';
     }
 
@@ -191,10 +185,6 @@ class VIH_Controller_LangtKursus_Show extends k_Component
                 <tr>
                     <th>Rejsedepositum</th>
                     <td>' . number_format($kursus->get('pris_rejsedepositum'), 0, ',', '.').' kroner</td>
-                </tr>
-                <tr>
-                    <th>Nøgledepositum</th>
-                    <td>' . number_format((float)$kursus->get('pris_nøgledepositum'), 0, ',', '.').' kroner</td>
                 </tr>
             </table>
 
